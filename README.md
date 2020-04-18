@@ -80,9 +80,9 @@ async def main_async():
         'admins password'
     )
 
-    vhosts = await mon.vhosts
+    vhosts = await mon.vhosts()
     vhost = vhosts['/some-vhost']
-    queues = await vhost.queues
+    queues = await vhost.queues()
     queue = queues['some.queue']
     messages = await queue.get_messages()
     print(messages)
