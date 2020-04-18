@@ -77,6 +77,14 @@ class VHostExchange:
             for item in response
         ]
 
+    async def delete(self, if_unused: bool = True) -> None:
+        """Delete the exchange.
+
+        Args:
+            if_unused (bool, optional): Only delete if unused. Defaults to True.
+        """
+        await self._api.delete_vhost_exchange(self.vhost, self.name, if_unused)
+
     def __str__(self) -> str:
         return '<VHostExchange {vhost}:{name} - {metrics}>'.format(
             vhost=self.vhost,

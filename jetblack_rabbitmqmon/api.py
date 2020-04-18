@@ -1,6 +1,6 @@
 """Api"""
 
-from typing import Any, List, Mapping, Optional
+from typing import Any, Dict, List, Mapping, Optional
 
 from .requester import Requester
 from .version import Version
@@ -410,8 +410,8 @@ class Api:
             vhost: str,
             name: str,
             exchange_type: str,
-            auto_delete: bool,
             durable: bool,
+            auto_delete: bool,
             internal: bool,
             arguments: Optional[Mapping[str, Any]] = None
     ) -> None:
@@ -596,27 +596,33 @@ class Api:
             self,
             vhost: str,
             name: str,
-            auto_delete: bool,
-            durable: bool,
-            arguments: Mapping[str, Any],
-            node: str
+            durable: Optional[bool] = None,
+            auto_delete: Optional[bool] = None,
+            arguments: Optional[Mapping[str, Any]] = None,
+            node: Optional[str] = None
     ) -> None:
         """Create an individual queue.
 
         Args:
             vhost (str): The name of the virtual host
             name (str): The queue name
-            auto_delete (bool): Whether the queue automatically deletes.
-            durable (bool): Whether the queue is durable
-            arguments (Mapping[str, Any]): Extra arguments
-            node (str): The node name
+            durable (Optional[bool]): Whether the queue is durable. Defaults
+                to None.
+            auto_delete (Optional[bool]): Whether the queue automatically
+                deletes. Defaults to None.
+            arguments (Optional[Mapping[str, Any]]): Extra arguments. Defaults
+                to None
+            node (Optional[str]): The node name. Defaults to None.
         """
-        data = {
-            "auto_delete": auto_delete,
-            "durable": durable,
-            "arguments": arguments,
-            "node": node
-        }
+        data: Dict[str, Any] = dict()
+        if durable is not None:
+            data['durable'] = durable
+        if auto_delete is not None:
+            data['auto_delete'] = auto_delete
+        if arguments:
+            data['arguments'] = arguments
+        if node:
+            data['node'] = node
         response = await self._requester.put('queues', vhost, name, data=data)
         if response is not None:
             raise ApiError

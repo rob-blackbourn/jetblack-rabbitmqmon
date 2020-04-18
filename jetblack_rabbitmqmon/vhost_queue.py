@@ -115,6 +115,21 @@ class VHostQueue:
         """
         await self._api.purge_vhost_queue(self.vhost, self.name)
 
+    async def delete(
+            self,
+            if_empty: bool = True,
+            if_unused: bool = True
+    ) -> None:
+        """Delete the queue
+
+        Args:
+            if_empty (bool, optional): If true, only delete if empty. Defaults
+                to True.
+            if_unused (bool, optional): If true, only delete if unused. Defaults
+                to True.
+        """
+        await self._api.delete_vhost_queue(self.vhost, self.name, if_empty, if_unused)
+
     def __str__(self) -> str:
         return '<VHostQueue {vhost}:{name} - {metrics}>'.format(
             vhost=self.vhost,
