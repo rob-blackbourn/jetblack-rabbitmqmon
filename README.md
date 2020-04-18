@@ -1,6 +1,6 @@
 # jetblack-rabbitmqmon
 
-This is an asyncio RabbitMQ monitor API.
+This is an asyncio RabbitMQ monitor API for Python3.7+.
 
 It wraps the RabbitMQ management plugin REST api. This allows retrieving
 metrics and peeking into the queues.
