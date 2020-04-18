@@ -1,4 +1,4 @@
-"""API"""
+"""aiohttp requester"""
 
 import json
 import ssl

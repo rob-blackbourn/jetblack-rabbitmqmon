@@ -54,7 +54,7 @@ if __name__ == '__main__':
     asyncio.run(main_async())
 ```
 
-The follow explores a vhost.
+The follow explores a vhost using the aiohttp client.
 
 ```python
 import asyncio
@@ -86,7 +86,7 @@ if __name__ == '__main__':
     asyncio.run(main_async())
 ```
 
-The following gets some messages from an exchange:
+The following gets some messages from an exchange using the bareclient.
 
 ```python
 import asyncio
