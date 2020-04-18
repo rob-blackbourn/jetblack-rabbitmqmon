@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "jetblack-rabbitmqmon"
+version = "1.0.0"
+description = "RabbitMQ Monitor"
+authors = ["Rob Blackbourn <rob.blackbourn@gmail.com>"]
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/rob-blackbourn/jetblack-rabbitmqmon"
+packages = [
+    { include = "jetblack_rabbitmqmon" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+bareclient = "^4.0.1"
+
+[tool.poetry.dev-dependencies]
+autopep8 = "^1.4"
+pytest = "^5.1"
+pylint = "^2.3"
+mypy = "^0.720.0"
+rope = "^0.14.0"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
