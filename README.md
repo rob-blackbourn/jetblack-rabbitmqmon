@@ -28,7 +28,7 @@ async def main_async():
     mon = Monitor(
         'http://mq.example.com:15672',
         'admin',
-        'admins password
+        'admins password'
     )
 
     overview = await mon.overview()
@@ -48,7 +48,7 @@ async def main_async():
     mon = Monitor(
         'http://mq.example.com:15672',
         'admin',
-        'admins password
+        'admins password'
     )
 
     vhosts = await mon.vhosts()
@@ -77,7 +77,7 @@ async def main_async():
     mon = Monitor(
         'http://mq.example.com:15672',
         'admin',
-        'admins password
+        'admins password'
     )
 
     vhosts = await mon.vhosts
