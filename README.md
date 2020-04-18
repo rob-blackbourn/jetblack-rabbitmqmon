@@ -2,7 +2,8 @@
 
 This is an asyncio RabbitMQ monitor API.
 
-It wraps the RabbitMQ management plugin REST api.
+It wraps the RabbitMQ management plugin REST api. This allows retrieving
+metrics and peeking into the queues.
 
 ## Status
 
@@ -12,23 +13,38 @@ This is work in progress, but is functional.
 
 This can be installed with pip.
 
+Multiple clients a supported and one *must* be selected. Choose one of:
+
+* [aiohttp](https://github.com/aio-libs/aiohttp)
+* [bareclient](https://github.com/rob-blackbourn/bareClient)
+
 ```bash
-pip install jetblack-rabbitmqmon
+pip install jetblack-rabbitmqmon[bareclient]
 ```
+
+Or alternatively:
+
+```bash
+pip install jetblack-rabbitmqmon[aiohttp]
+```
+
 
 ## Usage
 
-The following gets an overview.
+The following gets an overview using the bareclient.
 
 ```python
 import asyncio
 from jetblack_rabbitmqmon.monitor import Monitor
+from jetblack_rabbitmqmon.clients.bareclient_requester import BareRequester
 
 async def main_async():
     mon = Monitor(
-        'http://mq.example.com:15672',
-        'admin',
-        'admins password'
+        BareRequester(
+            'http://mq.example.com:15672',
+            'admin',
+            'admins password'
+        )
     )
 
     overview = await mon.overview()
@@ -43,12 +59,15 @@ The follow explores a vhost.
 ```python
 import asyncio
 from jetblack_rabbitmqmon.monitor import Monitor
+from jetblack_rabbitmqmon.clients.aiohttp_requester import AioHttpRequester
 
 async def main_async():
     mon = Monitor(
-        'http://mq.example.com:15672',
-        'admin',
-        'admins password'
+        AioHttpRequester(
+            'http://mq.example.com:15672',
+            'admin',
+            'admins password'
+        )
     )
 
     vhosts = await mon.vhosts()
@@ -72,12 +91,15 @@ The following gets some messages from an exchange:
 ```python
 import asyncio
 from jetblack_rabbitmqmon.monitor import Monitor
+from jetblack_rabbitmqmon.clients.bareclient_requester import BareRequester
 
 async def main_async():
     mon = Monitor(
-        'http://mq.example.com:15672',
-        'admin',
-        'admins password'
+        BareRequester(
+            'http://mq.example.com:15672',
+            'admin',
+            'admins password'
+        )
     )
 
     vhosts = await mon.vhosts()

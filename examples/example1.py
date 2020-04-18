@@ -4,13 +4,17 @@ import asyncio
 import os
 
 from jetblack_rabbitmqmon.monitor import Monitor
+from jetblack_rabbitmqmon.clients.bareclient_requester import BareRequester
+from jetblack_rabbitmqmon.clients.aiohttp_requester import AioHttpRequester
 
 
 async def main_async():
     mon = Monitor(
-        os.environ['RABBITMQ_URL'],
-        os.environ['RABBITMQ_USERNAME'],
-        os.environ['RABBITMQ_PASSWORD']
+        AioHttpRequester(
+            os.environ['RABBITMQ_URL'],
+            os.environ['RABBITMQ_USERNAME'],
+            os.environ['RABBITMQ_PASSWORD']
+        )
     )
 
     overview = await mon.overview()

@@ -2,7 +2,7 @@
 
 from typing import Any, List, Mapping, Optional
 
-from .client import Client
+from .requester import Requester
 from .version import Version
 
 
@@ -19,13 +19,10 @@ class Api:
 
     def __init__(
             self,
-            url: str,
-            username: str,
-            password: str,
-            cafile: Optional[str] = '/etc/ssl/certs/ca-certificates'
+            requester: Requester
 
     ):
-        self._client = Client(url, username, password, cafile)
+        self._requester = requester
         self._management_version: Optional[Version] = None
 
     async def management_version(self) -> Version:
@@ -44,7 +41,7 @@ class Api:
         Returns:
             Mapping[str, Any]: The information
         """
-        response = await self._client.get_object('overview')
+        response = await self._requester.get_object('overview')
         if response is None:
             raise ApiError
         return response
@@ -58,7 +55,7 @@ class Api:
         Returns:
             Mapping[str, Any]: An object containing the cluster name.
         """
-        response = await self._client.get_object('cluster-name')
+        response = await self._requester.get_object('cluster-name')
         if response is None:
             raise ApiError
         return response
@@ -72,7 +69,7 @@ class Api:
         Raises:
             ApiError: If the name could not be set.
         """
-        response = await self._client.put('cluster-name', data={'name': name})
+        response = await self._requester.put('cluster-name', data={'name': name})
         if response is not None:
             raise ApiError(response)
 
@@ -85,7 +82,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: The list of nodes
         """
-        response = await self._client.get_list('nodes')
+        response = await self._requester.get_list('nodes')
         if response is None:
             raise ApiError
         return response
@@ -115,7 +112,7 @@ class Api:
             'memory': memory,
             'binary': binary
         }
-        response = await self._client.get_object('nodes', name, params=params)
+        response = await self._requester.get_object('nodes', name, params=params)
         if response is None:
             raise ApiError
         return response
@@ -129,7 +126,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: The list of extensions
         """
-        response = await self._client.get_list('extensions')
+        response = await self._requester.get_list('extensions')
         if response is None:
             raise ApiError
         return response
@@ -164,7 +161,7 @@ class Api:
         Returns:
             Mapping[str, Any]: The definitions.
         """
-        response = await self._client.get_object('definitions')
+        response = await self._requester.get_object('definitions')
         if response is None:
             raise ApiError
         return response
@@ -178,7 +175,7 @@ class Api:
         Raises:
             ApiError: If the operation failed
         """
-        response = await self._client.put('definitions', data=definitions)
+        response = await self._requester.put('definitions', data=definitions)
         if response is not None:
             raise ApiError(response)
 
@@ -191,7 +188,7 @@ class Api:
         Returns:
             Mapping[str, Any]: The definitions.
         """
-        response = await self._client.get_object('definitions', vhost)
+        response = await self._requester.get_object('definitions', vhost)
         if response is None:
             raise ApiError
         return response
@@ -206,7 +203,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of connections.
         """
-        response = await self._client.get_list('connections')
+        response = await self._requester.get_list('connections')
         if response is None:
             raise ApiError
         return response
@@ -223,7 +220,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of connections
         """
-        response = await self._client.get_list('vhosts', vhost, 'connections')
+        response = await self._requester.get_list('vhosts', vhost, 'connections')
         if response is None:
             raise ApiError
         return response
@@ -241,7 +238,7 @@ class Api:
         Returns:
             Mapping[str, Any]: The connection details
         """
-        response = await self._client.get_object('connections', name)
+        response = await self._requester.get_object('connections', name)
         if response is None:
             raise ApiError
         return response
@@ -258,7 +255,7 @@ class Api:
         Returns:
             Mapping[str, Any]: The connection details
         """
-        response = await self._client.delete('connections', name)
+        response = await self._requester.delete('connections', name)
         if response is not None:
             raise ApiError
 
@@ -274,7 +271,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of channels
         """
-        response = await self._client.get_list('connection', name, 'channels')
+        response = await self._requester.get_list('connection', name, 'channels')
         if response is None:
             raise ApiError
         return response
@@ -288,7 +285,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of channels
         """
-        response = await self._client.get_list('channels')
+        response = await self._requester.get_list('channels')
         if response is None:
             raise ApiError
         return response
@@ -305,7 +302,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of channel details.
         """
-        response = await self._client.get_list('vhost', vhost, 'channels')
+        response = await self._requester.get_list('vhost', vhost, 'channels')
         if response is None:
             raise ApiError
         return response
@@ -322,7 +319,7 @@ class Api:
         Returns:
             Mapping[str, Any]: The channel details
         """
-        response = await self._client.get_object('channels', channel)
+        response = await self._requester.get_object('channels', channel)
         if response is None:
             raise ApiError
         return response
@@ -336,7 +333,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of consumers
         """
-        response = await self._client.get_list('consumers')
+        response = await self._requester.get_list('consumers')
         if response is None:
             raise ApiError
         return response
@@ -353,7 +350,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of consumers
         """
-        response = await self._client.get_list('consumers', vhost)
+        response = await self._requester.get_list('consumers', vhost)
         if response is None:
             raise ApiError
         return response
@@ -367,7 +364,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of exchanges
         """
-        response = await self._client.get_list('exchanges')
+        response = await self._requester.get_list('exchanges')
         if response is None:
             raise ApiError
         return response
@@ -384,7 +381,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of exchanges
         """
-        response = await self._client.get_list('exchanges', vhost)
+        response = await self._requester.get_list('exchanges', vhost)
         if response is None:
             raise ApiError
         return response
@@ -403,7 +400,7 @@ class Api:
         Returns:
             Mapping[str, Any]: The exchange details
         """
-        response = await self._client.get_object('exchanges', vhost, name)
+        response = await self._requester.get_object('exchanges', vhost, name)
         if response is None:
             raise ApiError
         return response
@@ -442,7 +439,7 @@ class Api:
             "internal": internal,
             "arguments": arguments or {}
         }
-        response = await self._client.put('exchanges', vhost, name, data=data)
+        response = await self._requester.put('exchanges', vhost, name, data=data)
         if response is not None:
             raise ApiError
 
@@ -461,7 +458,7 @@ class Api:
         params = {
             'if-unused': if_unused
         }
-        response = await self._client.delete('exchanges', vhost, name, params=params)
+        response = await self._requester.delete('exchanges', vhost, name, params=params)
         if response is not None:
             raise ApiError
 
@@ -478,7 +475,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of bindings
         """
-        response = await self._client.get_list('exchanges', vhost, name, 'bindings', 'source')
+        response = await self._requester.get_list('exchanges', vhost, name, 'bindings', 'source')
         if response is None:
             raise ApiError
         return response
@@ -496,7 +493,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of bindings
         """
-        response = await self._client.get_list('exchanges', vhost, name, 'bindings', 'destination')
+        response = await self._requester.get_list('exchanges', vhost, name, 'bindings', 'destination')
         if response is None:
             raise ApiError
         return response
@@ -541,7 +538,7 @@ class Api:
             "payload": payload,
             "payload_encoding": payload_encoding
         }
-        response = await self._client.post('exchanges', vhost, name, 'publish', data=data)
+        response = await self._requester.post('exchanges', vhost, name, 'publish', data=data)
         if response is None:
             raise ApiError
         return response
@@ -555,7 +552,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of queues.
         """
-        response = await self._client.get_list('queues')
+        response = await self._requester.get_list('queues')
         if response is None:
             raise ApiError
         return response
@@ -572,7 +569,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of queues
         """
-        response = await self._client.get_list('queues', vhost)
+        response = await self._requester.get_list('queues', vhost)
         if response is None:
             raise ApiError
         return response
@@ -590,7 +587,7 @@ class Api:
         Returns:
             Mapping[str, Any]: [description]
         """
-        response = await self._client.get_object('queues', vhost, name)
+        response = await self._requester.get_object('queues', vhost, name)
         if response is None:
             raise ApiError
         return response
@@ -620,7 +617,7 @@ class Api:
             "arguments": arguments,
             "node": node
         }
-        response = await self._client.put('queues', vhost, name, data=data)
+        response = await self._requester.put('queues', vhost, name, data=data)
         if response is not None:
             raise ApiError
 
@@ -642,7 +639,7 @@ class Api:
         Raises:
             ApiError: If the operation failed.
         """
-        response = await self._client.delete('queues', vhost, name)
+        response = await self._requester.delete('queues', vhost, name)
         if response is not None:
             raise ApiError
 
@@ -659,7 +656,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of bindings.
         """
-        response = await self._client.get_list('queues', vhost, name, 'bindings')
+        response = await self._requester.get_list('queues', vhost, name, 'bindings')
         if response is None:
             raise ApiError
         return response
@@ -674,7 +671,7 @@ class Api:
         Raises:
             ApiError: If the operation failed
         """
-        response = await self._client.delete('queue', vhost, name, 'contents')
+        response = await self._requester.delete('queue', vhost, name, 'contents')
         if response is not None:
             raise ApiError
 
@@ -694,7 +691,7 @@ class Api:
         data = {
             'action': action
         }
-        response = await self._client.post('queues', vhost, name, 'actions', data=data)
+        response = await self._requester.post('queues', vhost, name, 'actions', data=data)
         if response is not None:
             raise ApiError
 
@@ -714,7 +711,7 @@ class Api:
         }
         if truncate is not None:
             data['truncate'] = truncate
-        response = await self._client.post('queues', vhost, name, 'get', data=data)
+        response = await self._requester.post('queues', vhost, name, 'get', data=data)
         if response is None:
             raise ApiError
         return response
@@ -765,7 +762,7 @@ class Api:
         if truncate is not None:
             data['truncate'] = truncate
 
-        response = await self._client.post('queues', vhost, name, 'get', data=data)
+        response = await self._requester.post('queues', vhost, name, 'get', data=data)
         if response is None:
             raise ApiError
         return response
@@ -815,7 +812,7 @@ class Api:
         }
         if truncate is not None:
             data['truncate'] = truncate
-        response = await self._client.post('queues', vhost, name, 'get', data=data)
+        response = await self._requester.post('queues', vhost, name, 'get', data=data)
         if response is None:
             raise ApiError
         return response
@@ -829,7 +826,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of bindings
         """
-        response = await self._client.get('bindings')
+        response = await self._requester.get('bindings')
         if response is None:
             raise ApiError
         return response
@@ -846,7 +843,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of bindings
         """
-        response = await self._client.get('bindings', vhost)
+        response = await self._requester.get('bindings', vhost)
         if response is None:
             raise ApiError
         return response
@@ -871,7 +868,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of the bindings
         """
-        response = await self._client.get('bindings', vhost, 'e', exchange, 'q', queue)
+        response = await self._requester.get('bindings', vhost, 'e', exchange, 'q', queue)
         if response is None:
             raise ApiError
         return response
@@ -888,7 +885,7 @@ class Api:
             "routing_key": routing_key,
             "arguments": arguments
         }
-        response = await self._client.post(
+        response = await self._requester.post(
             'bindings', vhost, 'e', exchange, 'q', queue,
             data=data
         )
@@ -920,7 +917,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of the binding properties
         """
-        response = await self._client.get('bindings', vhost, 'e', exchange, 'q', queue, props)
+        response = await self._requester.get('bindings', vhost, 'e', exchange, 'q', queue, props)
         if response is None:
             raise ApiError
         return response
@@ -932,7 +929,7 @@ class Api:
             queue: str,
             props: str
     ) -> None:
-        response = await self._client.delete(
+        response = await self._requester.delete(
             'bindings', vhost, 'e', exchange, 'q', queue, props
         )
         if response is not None:
@@ -958,7 +955,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of bindings
         """
-        response = await self._client.get('bindings', vhost, 'e', source, 'e', destination)
+        response = await self._requester.get('bindings', vhost, 'e', source, 'e', destination)
         if response is None:
             raise ApiError
         return response
@@ -987,7 +984,7 @@ class Api:
             "routing_key": routing_key,
             "arguments": arguments
         }
-        response = await self._client.post(
+        response = await self._requester.post(
             'bindings', vhost, 'e', source, 'e', destination,
             data=data
         )
@@ -1016,7 +1013,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of the props
         """
-        response = await self._client.get('bindings', vhost, 'e', source, 'e', destination, props)
+        response = await self._requester.get('bindings', vhost, 'e', source, 'e', destination, props)
         if response is None:
             raise ApiError
         return response
@@ -1040,7 +1037,7 @@ class Api:
         Raises:
             ApiError: If the operation fails
         """
-        response = await self._client.delete(
+        response = await self._requester.delete(
             'bindings', vhost, 'e', source, 'e', destination, props
         )
         if response is None:
@@ -1055,7 +1052,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of virtual hosts.
         """
-        response = await self._client.get_list('vhosts')
+        response = await self._requester.get_list('vhosts')
         if response is None:
             raise ApiError
         return response
@@ -1072,7 +1069,7 @@ class Api:
         Returns:
             Mapping[str, Any]: The details of the virtual host
         """
-        response = await self._client.get_object('vhost', vhost)
+        response = await self._requester.get_object('vhost', vhost)
         if response is None:
             raise ApiError
         return response
@@ -1090,7 +1087,7 @@ class Api:
         data = {
             'tracing': tracing
         }
-        response = await self._client.put('vhost', vhost, data=data)
+        response = await self._requester.put('vhost', vhost, data=data)
         if response is not None:
             raise ApiError
 
@@ -1103,7 +1100,7 @@ class Api:
         Raises:
             ApiError: If the operation fails
         """
-        response = await self._client.delete('vhost', vhost)
+        response = await self._requester.delete('vhost', vhost)
         if response is not None:
             raise ApiError
 
@@ -1119,7 +1116,7 @@ class Api:
         Returns:
         List[Mapping[str, Any]]: A list of permissions
         """
-        response = await self._client.get('vhosts', name, 'permissions')
+        response = await self._requester.get('vhosts', name, 'permissions')
         if response is None:
             raise ApiError
         return response
@@ -1136,7 +1133,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of topic permissions
         """
-        response = await self._client.get('vhosts', name, 'topic-permissions')
+        response = await self._requester.get('vhosts', name, 'topic-permissions')
         if response is None:
             raise ApiError
         return response
@@ -1150,7 +1147,7 @@ class Api:
         Returns:
             List[Mapping[str, Any]]: A list of users
         """
-        response = await self._client.get_list('users')
+        response = await self._requester.get_list('users')
         if response is None:
             raise ApiError
         return response

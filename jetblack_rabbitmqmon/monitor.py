@@ -1,7 +1,8 @@
 """Monitor"""
 
-from typing import List, Mapping, Optional, cast
+from typing import List, Mapping, cast
 
+from .requester import Requester
 from .api import Api
 from .version import Version
 from .vhost import VHost
@@ -15,12 +16,9 @@ class Monitor:
 
     def __init__(
             self,
-            url: str,
-            username: str,
-            password: str,
-            cafile: Optional[str] = '/etc/ssl/certs/ca-certificates'
+            requester: Requester
     ):
-        self._api = Api(url, username, password, cafile)
+        self._api = Api(requester)
 
     async def overview(self):
         return await self._api.get_overview()

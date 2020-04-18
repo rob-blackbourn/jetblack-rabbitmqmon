@@ -49,6 +49,7 @@ class VHost:
         return {
             item['name']: VHostExchange(self._api, **item)
             for item in response
+            if item['name']
         }
 
     async def queues(self) -> Mapping[str, VHostQueue]:
@@ -61,6 +62,7 @@ class VHost:
         return {
             item['name']: VHostQueue(self._api, **item)
             for item in response
+            if item['name']
         }
 
     def __str__(self) -> str:
