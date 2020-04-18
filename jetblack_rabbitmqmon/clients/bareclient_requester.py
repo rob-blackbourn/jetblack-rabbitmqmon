@@ -1,4 +1,4 @@
-"""API"""
+"""bareClient requester"""
 
 from base64 import b64encode
 import json
