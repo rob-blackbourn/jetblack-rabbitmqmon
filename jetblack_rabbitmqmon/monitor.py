@@ -68,5 +68,5 @@ class Monitor:
     async def extensions(self) -> List[Mapping[str, Any]]:
         return await self._api.get_extensions()
 
-    async def definitions(self) -> List[Mapping[str, Any]]:
+    async def definitions(self) -> Mapping[str, Any]:
         return await self._api.get_definitions()
