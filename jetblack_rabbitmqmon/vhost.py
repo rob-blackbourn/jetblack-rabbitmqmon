@@ -136,6 +136,11 @@ class VHost:
         response = await self._api.get_vhost_queue(self.name, name)
         return VHostQueue(self._api, **response)
 
+    async def delete(self) -> None:
+        """Delete the vhost
+        """
+        await self._api.delete_vhost(self.name)
+
     def __str__(self) -> str:
         return '<VHost {name} - {metrics}>'.format(
             name=self.name,

@@ -1,6 +1,6 @@
 """Monitor"""
 
-from typing import List, Mapping, cast
+from typing import Any, List, Mapping, cast
 
 from .requester import Requester
 from .api import Api
@@ -64,3 +64,9 @@ class Monitor:
             User(self._api, **item)
             for item in response
         ]
+
+    async def extensions(self) -> List[Mapping[str, Any]]:
+        return await self._api.get_extensions()
+
+    async def definitions(self) -> List[Mapping[str, Any]]:
+        return await self._api.get_definitions()

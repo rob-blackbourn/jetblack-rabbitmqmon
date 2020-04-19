@@ -26,6 +26,12 @@ async def main_async():
     cluster_name = await mon.cluster_name()
     print(cluster_name)
 
+    extensions = await mon.extensions()
+    print(extensions)
+
+    definitions = await mon.definitions()
+    print(definitions)
+
     vhosts = await mon.vhosts()
     print(vhosts)
 

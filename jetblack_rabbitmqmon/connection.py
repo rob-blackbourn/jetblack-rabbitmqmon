@@ -111,6 +111,11 @@ class Connection:
             for item in response
         ]
 
+    async def delete(self) -> None:
+        """Delete a connection.
+        """
+        await self._api.delete_connection(self.name)
+
     def __str__(self) -> str:
         return '<Connection {node} {vhost}:{name} - {metrics}>'.format(
             node=self.node,
