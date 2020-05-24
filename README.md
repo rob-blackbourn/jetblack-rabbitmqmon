@@ -1,4 +1,4 @@
-# jetblack-rabbitmqmon
+# gascode-rabbitmqmon
 
 This is an asyncio RabbitMQ monitor API for Python3.7+.
 
@@ -19,13 +19,13 @@ Multiple clients a supported and one *must* be selected. Choose one of:
 * [bareclient](https://github.com/rob-blackbourn/bareClient)
 
 ```bash
-pip install jetblack-rabbitmqmon[bareclient]
+pip install gascode-rabbitmqmon[bareclient]
 ```
 
 Or alternatively:
 
 ```bash
-pip install jetblack-rabbitmqmon[aiohttp]
+pip install gascode-rabbitmqmon[aiohttp]
 ```
 
 
@@ -35,8 +35,8 @@ The following gets an overview using the bareclient.
 
 ```python
 import asyncio
-from jetblack_rabbitmqmon.monitor import Monitor
-from jetblack_rabbitmqmon.clients.bareclient_requester import BareRequester
+from gascode_rabbitmqmon.monitor import Monitor
+from gascode_rabbitmqmon.clients.bareclient_requester import BareRequester
 
 async def main_async():
     mon = Monitor(
@@ -58,8 +58,8 @@ The follow explores a vhost using the aiohttp client.
 
 ```python
 import asyncio
-from jetblack_rabbitmqmon.monitor import Monitor
-from jetblack_rabbitmqmon.clients.aiohttp_requester import AioHttpRequester
+from gascode_rabbitmqmon.monitor import Monitor
+from gascode_rabbitmqmon.clients.aiohttp_requester import AioHttpRequester
 
 async def main_async():
     mon = Monitor(
@@ -90,8 +90,8 @@ The following gets some messages from an exchange using the bareclient.
 
 ```python
 import asyncio
-from jetblack_rabbitmqmon.monitor import Monitor
-from jetblack_rabbitmqmon.clients.bareclient_requester import BareRequester
+from gascode_rabbitmqmon.monitor import Monitor
+from gascode_rabbitmqmon.clients.bareclient_requester import BareRequester
 
 async def main_async():
     mon = Monitor(
