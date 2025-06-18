@@ -1,4 +1,4 @@
-# gascode-rabbitmqmon
+# jetblack-rabbitmqmon
 
 This is an asyncio RabbitMQ monitor API for Python3.7+.
 
