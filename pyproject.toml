@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "gascode-rabbitmqmon"
+name = "jetblack-rabbitmqmon"
 version = "2.0.0"
 description = "RabbitMQ Monitor"
 authors = ["Rob Blackbourn <rob.blackbourn@gmail.com>"]
 license = "Apache-2.0"
 readme = "README.md"
-repository = "https://github.com/rob-blackbourn/gascode-rabbitmqmon"
+repository = "https://github.com/rob-blackbourn/jetblack-rabbitmqmon"
 packages = [
-    { include = "gascode_rabbitmqmon" }
+    { include = "jetblack_rabbitmqmon" }
 ]
 
 [tool.poetry.dependencies]
@@ -25,11 +25,6 @@ rope = "^0.14.0"
 [tool.poetry.extras]
 bareclient = [ "bareclient" ]
 aiohttp = [ "aiohttp" ]
-
-[[tool.poetry.source]]
-name = "gascode"
-url = "https://www.jetblack.net/nexus/repository/pypi-group/simple/"
-default = true
 
 [build-system]
 requires = ["poetry>=0.12"]

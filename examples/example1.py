@@ -3,9 +3,9 @@
 import asyncio
 import os
 
-from gascode_rabbitmqmon.monitor import Monitor
-from gascode_rabbitmqmon.clients.bareclient_requester import BareRequester
-from gascode_rabbitmqmon.clients.aiohttp_requester import AioHttpRequester
+from jetblack_rabbitmqmon.monitor import Monitor
+from jetblack_rabbitmqmon.clients.bareclient_requester import BareRequester
+from jetblack_rabbitmqmon.clients.aiohttp_requester import AioHttpRequester
 
 
 async def main_async():
