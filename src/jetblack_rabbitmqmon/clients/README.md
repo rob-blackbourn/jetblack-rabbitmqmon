@@ -4,7 +4,7 @@ A requester provides a subclass of `Requester`, overriding the `request`
 method: It also takes the connection details in the `__init__` method.
 
 ```python
-from gascode_rabbitmqmon.requester import Requester
+from jetblack_rabbitmqmon.requester import Requester
 
 class MyRequester(Requester):
     """An HTTP client"""

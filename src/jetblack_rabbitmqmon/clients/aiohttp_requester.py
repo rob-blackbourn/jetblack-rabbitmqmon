@@ -9,7 +9,6 @@ from aiohttp import ClientSession, BasicAuth
 
 from ..requester import Requester
 
-
 def _quote(value):
     return quote(value, '')
 
@@ -38,7 +37,7 @@ class AioHttpRequester(Requester):
         self.auth = BasicAuth(username, password)
         self.ssl_context = ssl.create_default_context(
             cafile=cafile
-        ) if cafile else None
+        ) if cafile else False
 
     def _build_url(self, *args: str) -> str:
         quoted_args = map(_quote, args)

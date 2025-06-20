@@ -1,6 +1,6 @@
 # jetblack-rabbitmqmon
 
-This is an asyncio RabbitMQ monitor API for Python3.7+.
+This is an asyncio RabbitMQ monitor API for Python3.12+.
 
 It wraps the RabbitMQ management plugin REST api. This allows retrieving
 metrics and peeking into the queues.
@@ -16,27 +16,27 @@ This can be installed with pip.
 Multiple clients a supported and one *must* be selected. Choose one of:
 
 * [aiohttp](https://github.com/aio-libs/aiohttp)
-* [bareclient](https://github.com/rob-blackbourn/bareClient)
+* [httpx](https://github.com/encode/httpx)
 
 ```bash
-pip install gascode-rabbitmqmon[bareclient]
+pip install jetblack-rabbitmqmon[bareclient]
 ```
 
 Or alternatively:
 
 ```bash
-pip install gascode-rabbitmqmon[aiohttp]
+pip install jetblack-rabbitmqmon[aiohttp]
 ```
 
 
 ## Usage
 
-The following gets an overview using the bareclient.
+The following gets an overview using the httpx.
 
 ```python
 import asyncio
-from gascode_rabbitmqmon.monitor import Monitor
-from gascode_rabbitmqmon.clients.bareclient_requester import BareRequester
+from jetblack_rabbitmqmon.monitor import Monitor
+from jetblack_rabbitmqmon.clients.httpx_requester import HttpxRequester
 
 async def main_async():
     mon = Monitor(
@@ -58,8 +58,8 @@ The follow explores a vhost using the aiohttp client.
 
 ```python
 import asyncio
-from gascode_rabbitmqmon.monitor import Monitor
-from gascode_rabbitmqmon.clients.aiohttp_requester import AioHttpRequester
+from jetblack_rabbitmqmon.monitor import Monitor
+from jetblack_rabbitmqmon.clients.aiohttp_requester import AioHttpRequester
 
 async def main_async():
     mon = Monitor(
@@ -86,16 +86,16 @@ if __name__ == '__main__':
     asyncio.run(main_async())
 ```
 
-The following gets some messages from an exchange using the bareclient.
+The following gets some messages from an exchange using the httpx client.
 
 ```python
 import asyncio
-from gascode_rabbitmqmon.monitor import Monitor
-from gascode_rabbitmqmon.clients.bareclient_requester import BareRequester
+from jetblack_rabbitmqmon.monitor import Monitor
+from jetblack_rabbitmqmon.clients.httpx_requester import HttpxRequester
 
 async def main_async():
     mon = Monitor(
-        BareRequester(
+        HttpxRequester(
             'http://mq.example.com:15672',
             'admin',
             'admins password'
@@ -112,4 +112,3 @@ async def main_async():
 if __name__ == '__main__':
     asyncio.run(main_async())
 ```
-

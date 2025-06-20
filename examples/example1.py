@@ -3,19 +3,13 @@
 import asyncio
 import os
 
-from jetblack_rabbitmqmon.monitor import Monitor
-from jetblack_rabbitmqmon.clients.bareclient_requester import BareRequester
+from jetblack_rabbitmqmon.monitor import Monitor, Requester
+from jetblack_rabbitmqmon.clients.httpx_requester import HttpxRequester
 from jetblack_rabbitmqmon.clients.aiohttp_requester import AioHttpRequester
 
 
-async def main_async():
-    mon = Monitor(
-        AioHttpRequester(
-            os.environ['RABBITMQ_URL'],
-            os.environ['RABBITMQ_USERNAME'],
-            os.environ['RABBITMQ_PASSWORD']
-        )
-    )
+async def main_async(requester: Requester) -> None:
+    mon = Monitor(requester)
 
     overview = await mon.overview()
     print(overview)
@@ -80,4 +74,15 @@ async def main_async():
         print(node)
 
 if __name__ == '__main__':
-    asyncio.run(main_async())
+    aiohttp_requester = AioHttpRequester(
+        os.environ['RABBITMQ_URL'],
+        os.environ['RABBITMQ_USERNAME'],
+        os.environ['RABBITMQ_PASSWORD']
+    )
+    httpx_requester = HttpxRequester(
+        os.environ['RABBITMQ_URL'],
+        os.environ['RABBITMQ_USERNAME'],
+        os.environ['RABBITMQ_PASSWORD']
+    )
+
+    asyncio.run(main_async(aiohttp_requester))
