@@ -1,6 +1,6 @@
 """Api"""
 
-from typing import Any, Dict, List, Mapping, Optional
+from typing import Any, Mapping
 
 from .requester import Requester
 from .version import Version
@@ -23,7 +23,7 @@ class Api:
 
     ):
         self._requester = requester
-        self._management_version: Optional[Version] = None
+        self._management_version: Version | None = None
 
     async def management_version(self) -> Version:
 
@@ -73,14 +73,14 @@ class Api:
         if response is not None:
             raise ApiError(response)
 
-    async def get_nodes(self) -> List[Mapping[str, Any]]:
+    async def get_nodes(self) -> list[Mapping[str, Any]]:
         """A list of nodes in the RabbitMQ cluster.
 
         Raises:
             ApiError: If no data was returned
 
         Returns:
-            List[Mapping[str, Any]]: The list of nodes
+            list[Mapping[str, Any]]: The list of nodes
         """
         response = await self._requester.get_list('nodes')
         if response is None:
@@ -106,7 +106,7 @@ class Api:
             ApiError: When no data is returned.
 
         Returns:
-            List[Mapping[str, Any]]: The node details.
+            list[Mapping[str, Any]]: The node details.
         """
         params = {
             'memory': memory,
@@ -117,14 +117,14 @@ class Api:
             raise ApiError
         return response
 
-    async def get_extensions(self) -> List[Mapping[str, Any]]:
+    async def get_extensions(self) -> list[Mapping[str, Any]]:
         """A list of extensions to the management plugin.
 
         Raises:
             ApiError: [description]
 
         Returns:
-            List[Mapping[str, Any]]: The list of extensions
+            list[Mapping[str, Any]]: The list of extensions
         """
         response = await self._requester.get_list('extensions')
         if response is None:
@@ -193,7 +193,7 @@ class Api:
             raise ApiError
         return response
 
-    async def get_connections(self) -> List[Mapping[str, Any]]:
+    async def get_connections(self) -> list[Mapping[str, Any]]:
         """A list of all open connections.
 
 
@@ -201,14 +201,14 @@ class Api:
             ApiError: If the operation failed
 
         Returns:
-            List[Mapping[str, Any]]: A list of connections.
+            list[Mapping[str, Any]]: A list of connections.
         """
         response = await self._requester.get_list('connections')
         if response is None:
             raise ApiError
         return response
 
-    async def get_vhost_connections(self, vhost: str) -> List[Mapping[str, Any]]:
+    async def get_vhost_connections(self, vhost: str) -> list[Mapping[str, Any]]:
         """A list of all open connections in a specific vhost.
 
         Args:
@@ -218,7 +218,7 @@ class Api:
             ApiError: If the operation failed.
 
         Returns:
-            List[Mapping[str, Any]]: A list of connections
+            list[Mapping[str, Any]]: A list of connections
         """
         response = await self._requester.get_list('vhosts', vhost, 'connections')
         if response is None:
@@ -259,7 +259,7 @@ class Api:
         if response is not None:
             raise ApiError
 
-    async def get_connection_channels(self, name: str) -> List[Mapping[str, Any]]:
+    async def get_connection_channels(self, name: str) -> list[Mapping[str, Any]]:
         """List of all channels for a given connection.
 
         Args:
@@ -269,28 +269,28 @@ class Api:
             ApiError: [description]
 
         Returns:
-            List[Mapping[str, Any]]: A list of channels
+            list[Mapping[str, Any]]: A list of channels
         """
         response = await self._requester.get_list('connection', name, 'channels')
         if response is None:
             raise ApiError
         return response
 
-    async def get_channels(self) -> List[Mapping[str, Any]]:
+    async def get_channels(self) -> list[Mapping[str, Any]]:
         """A list of all open channels.
 
         Raises:
             ApiError: [description]
 
         Returns:
-            List[Mapping[str, Any]]: A list of channels
+            list[Mapping[str, Any]]: A list of channels
         """
         response = await self._requester.get_list('channels')
         if response is None:
             raise ApiError
         return response
 
-    async def get_vhost_channels(self, vhost: str) -> List[Mapping[str, Any]]:
+    async def get_vhost_channels(self, vhost: str) -> list[Mapping[str, Any]]:
         """A list of all open channels in a specific vhost.
 
         Args:
@@ -300,7 +300,7 @@ class Api:
             ApiError: If the operation fails
 
         Returns:
-            List[Mapping[str, Any]]: A list of channel details.
+            list[Mapping[str, Any]]: A list of channel details.
         """
         response = await self._requester.get_list('vhost', vhost, 'channels')
         if response is None:
@@ -324,21 +324,21 @@ class Api:
             raise ApiError
         return response
 
-    async def get_consumers(self) -> List[Mapping[str, Any]]:
+    async def get_consumers(self) -> list[Mapping[str, Any]]:
         """A list of all consumers.
 
         Raises:
             ApiError: If the operation fails
 
         Returns:
-            List[Mapping[str, Any]]: A list of consumers
+            list[Mapping[str, Any]]: A list of consumers
         """
         response = await self._requester.get_list('consumers')
         if response is None:
             raise ApiError
         return response
 
-    async def get_vhost_consumers(self, vhost: str) -> List[Mapping[str, Any]]:
+    async def get_vhost_consumers(self, vhost: str) -> list[Mapping[str, Any]]:
         """A list of all consumers in a given virtual host.
 
         Args:
@@ -348,28 +348,28 @@ class Api:
             ApiError: If the operation fails
 
         Returns:
-            List[Mapping[str, Any]]: A list of consumers
+            list[Mapping[str, Any]]: A list of consumers
         """
         response = await self._requester.get_list('consumers', vhost)
         if response is None:
             raise ApiError
         return response
 
-    async def get_exchanges(self) -> List[Mapping[str, Any]]:
+    async def get_exchanges(self) -> list[Mapping[str, Any]]:
         """A list of all exchanges.
 
         Raises:
             ApiError: If the operation fails
 
         Returns:
-            List[Mapping[str, Any]]: A list of exchanges
+            list[Mapping[str, Any]]: A list of exchanges
         """
         response = await self._requester.get_list('exchanges')
         if response is None:
             raise ApiError
         return response
 
-    async def get_vhost_exchanges(self, vhost: str) -> List[Mapping[str, Any]]:
+    async def get_vhost_exchanges(self, vhost: str) -> list[Mapping[str, Any]]:
         """A list of all exchanges in a given virtual host.
 
         Args:
@@ -379,7 +379,7 @@ class Api:
             ApiError: If the operation fails
 
         Returns:
-            List[Mapping[str, Any]]: A list of exchanges
+            list[Mapping[str, Any]]: A list of exchanges
         """
         response = await self._requester.get_list('exchanges', vhost)
         if response is None:
@@ -413,7 +413,7 @@ class Api:
             durable: bool,
             auto_delete: bool,
             internal: bool,
-            arguments: Optional[Mapping[str, Any]] = None
+            arguments: Mapping[str, Any] | None = None
     ) -> None:
         """Create an individual exchange.
 
@@ -429,7 +429,7 @@ class Api:
             internal (bool): If true, clients cannot publish to this exchange
                 directly. It can only be used with exchange to exchange
                 bindings.
-            arguments (Optional[Mapping[str, Any]], optional): Additional
+            arguments (Mapping[str, Any] | None, optional): Additional
                 arguments. Defaults to None.
         """
         data = {
@@ -443,7 +443,12 @@ class Api:
         if response is not None:
             raise ApiError
 
-    async def delete_vhost_exchange(self, vhost: str, name: str, if_unused: bool) -> None:
+    async def delete_vhost_exchange(
+            self,
+            vhost: str,
+            name: str,
+            if_unused: bool
+    ) -> None:
         """Delete an exchange
 
         Args:
@@ -462,7 +467,11 @@ class Api:
         if response is not None:
             raise ApiError
 
-    async def get_vhost_exchange_bindings_source(self, vhost: str, name: str) -> List[Mapping[str, Any]]:
+    async def get_vhost_exchange_bindings_source(
+            self,
+            vhost: str,
+            name: str
+    ) -> list[Mapping[str, Any]]:
         """A list of all bindings in which a given exchange is the source.
 
         Args:
@@ -473,14 +482,18 @@ class Api:
             ApiError: If the operation failed
 
         Returns:
-            List[Mapping[str, Any]]: A list of bindings
+            list[Mapping[str, Any]]: A list of bindings
         """
         response = await self._requester.get_list('exchanges', vhost, name, 'bindings', 'source')
         if response is None:
             raise ApiError
         return response
 
-    async def get_vhost_exchange_bindings_destination(self, vhost: str, name: str) -> List[Mapping[str, Any]]:
+    async def get_vhost_exchange_bindings_destination(
+            self,
+            vhost: str,
+            name: str
+    ) -> list[Mapping[str, Any]]:
         """A list of all bindings in which a given exchange is the destination.
 
         Args:
@@ -491,9 +504,15 @@ class Api:
             ApiError: If the operation failed
 
         Returns:
-            List[Mapping[str, Any]]: A list of bindings
+            list[Mapping[str, Any]]: A list of bindings
         """
-        response = await self._requester.get_list('exchanges', vhost, name, 'bindings', 'destination')
+        response = await self._requester.get_list(
+            'exchanges',
+            vhost,
+            name,
+            'bindings',
+            'destination'
+        )
         if response is None:
             raise ApiError
         return response
@@ -543,21 +562,21 @@ class Api:
             raise ApiError
         return response
 
-    async def get_queues(self) -> List[Mapping[str, Any]]:
+    async def get_queues(self) -> list[Mapping[str, Any]]:
         """A list of all queues.
 
         Raises:
             ApiError: If the operation fails
 
         Returns:
-            List[Mapping[str, Any]]: A list of queues.
+            list[Mapping[str, Any]]: A list of queues.
         """
         response = await self._requester.get_list('queues')
         if response is None:
             raise ApiError
         return response
 
-    async def get_vhost_queues(self, vhost: str) -> List[Mapping[str, Any]]:
+    async def get_vhost_queues(self, vhost: str) -> list[Mapping[str, Any]]:
         """A list of all queues in a given virtual host.
 
         Args:
@@ -567,7 +586,7 @@ class Api:
             ApiError: If the operation fails
 
         Returns:
-            List[Mapping[str, Any]]: A list of queues
+            list[Mapping[str, Any]]: A list of queues
         """
         response = await self._requester.get_list('queues', vhost)
         if response is None:
@@ -596,25 +615,25 @@ class Api:
             self,
             vhost: str,
             name: str,
-            durable: Optional[bool] = None,
-            auto_delete: Optional[bool] = None,
-            arguments: Optional[Mapping[str, Any]] = None,
-            node: Optional[str] = None
+            durable: bool | None = None,
+            auto_delete: bool | None = None,
+            arguments: Mapping[str, Any] | None = None,
+            node: str | None = None
     ) -> None:
         """Create an individual queue.
 
         Args:
             vhost (str): The name of the virtual host
             name (str): The queue name
-            durable (Optional[bool]): Whether the queue is durable. Defaults
+            durable (bool | None): Whether the queue is durable. Defaults
                 to None.
-            auto_delete (Optional[bool]): Whether the queue automatically
+            auto_delete (bool | None): Whether the queue automatically
                 deletes. Defaults to None.
-            arguments (Optional[Mapping[str, Any]]): Extra arguments. Defaults
+            arguments (Mapping[str, Any] | None): Extra arguments. Defaults
                 to None
-            node (Optional[str]): The node name. Defaults to None.
+            node (str | None): The node name. Defaults to None.
         """
-        data: Dict[str, Any] = dict()
+        data: dict[str, Any] = {}
         if durable is not None:
             data['durable'] = durable
         if auto_delete is not None:
@@ -649,7 +668,11 @@ class Api:
         if response is not None:
             raise ApiError
 
-    async def get_vhost_queue_bindings(self, vhost: str, name: str) -> List[Mapping[str, Any]]:
+    async def get_vhost_queue_bindings(
+            self,
+            vhost: str,
+            name: str
+    ) -> list[Mapping[str, Any]]:
         """A list of all bindings on a given queue.
 
         Args:
@@ -660,7 +683,7 @@ class Api:
             ApiError: If the operation failed
 
         Returns:
-            List[Mapping[str, Any]]: A list of bindings.
+            list[Mapping[str, Any]]: A list of bindings.
         """
         response = await self._requester.get_list('queues', vhost, name, 'bindings')
         if response is None:
@@ -681,7 +704,12 @@ class Api:
         if response is not None:
             raise ApiError
 
-    async def invoke_vhost_queue_action(self, vhost: str, name: str, action: str) -> None:
+    async def invoke_vhost_queue_action(
+            self,
+            vhost: str,
+            name: str,
+            action: str
+    ) -> None:
         """Actions that can be taken on a queue.
 
         Currently the actions which are supported are sync and cancel_sync.
@@ -708,8 +736,8 @@ class Api:
             count: int,
             requeue: bool,
             encoding: str = 'auto',
-            truncate: Optional[int] = None
-    ) -> List[Mapping[str, Any]]:
+            truncate: int | None = None
+    ) -> list[Mapping[str, Any]]:
         data = {
             "count": count,
             "requeue": requeue,
@@ -729,9 +757,9 @@ class Api:
             count: int = 1,
             requeue: bool = True,
             encoding: str = 'auto',
-            truncate: Optional[int] = None,
+            truncate: int | None = None,
             reject: bool = False
-    ) -> List[Mapping[str, Any]]:
+    ) -> list[Mapping[str, Any]]:
         version = await self.management_version()
 
         if VERSION_3_6 <= version < VERSION_3_7:
@@ -780,12 +808,14 @@ class Api:
             count: int,
             ackmode: str,
             encoding: str = 'auto',
-            truncate: Optional[int] = None
-    ) -> List[Mapping[str, Any]]:
+            truncate: int | None = None
+    ) -> list[Mapping[str, Any]]:
         """Get messages from a queue.
         truncate is optional; all other keys are mandatory.
 
-        Please note that the get path in the HTTP API is intended for diagnostics etc - it does not implement reliable delivery and so should be treated as a sysadmin's tool rather than a general API for messaging.
+        Please note that the get path in the HTTP API is intended for
+        diagnostics etc - it does not implement reliable delivery and so should
+        be treated as a sysadmin's tool rather than a general API for messaging.
 
         Args:
             vhost (str): The name of the virtual host
@@ -801,7 +831,7 @@ class Api:
                 payload will be returned as a string if it is valid UTF-8, and
                 base64 encoded otherwise), or "base64" (in which case the
                 payload will always be base64 encoded). Defaults to 'auto'.
-            truncate (Optional[int], optional): If truncate is present it will
+            truncate (int | None, optional): If truncate is present it will
                 truncate the message payload if it is larger than the size given
                 (in bytes). Defaults to None.
 
@@ -809,7 +839,7 @@ class Api:
             ApiError: If the operation failed.
 
         Returns:
-            List[Mapping[str, Any]]: The messages
+            list[Mapping[str, Any]]: The messages
         """
         data = {
             "count": count,
@@ -823,21 +853,21 @@ class Api:
             raise ApiError
         return response
 
-    async def get_bindings(self) -> List[Mapping[str, Any]]:
+    async def get_bindings(self) -> list[Mapping[str, Any]]:
         """A list of all bindings.
 
         Raises:
             ApiError: If the operation fails
 
         Returns:
-            List[Mapping[str, Any]]: A list of bindings
+            list[Mapping[str, Any]]: A list of bindings
         """
         response = await self._requester.get('bindings')
         if response is None:
             raise ApiError
         return response
 
-    async def get_vhost_bindings(self, vhost: str) -> List[Mapping[str, Any]]:
+    async def get_vhost_bindings(self, vhost: str) -> list[Mapping[str, Any]]:
         """A list of all bindings in a given virtual host.
 
         Args:
@@ -847,7 +877,7 @@ class Api:
             ApiError: If the operation fails
 
         Returns:
-            List[Mapping[str, Any]]: A list of bindings
+            list[Mapping[str, Any]]: A list of bindings
         """
         response = await self._requester.get('bindings', vhost)
         if response is None:
@@ -859,7 +889,7 @@ class Api:
             vhost: str,
             exchange: str,
             queue: str
-    ) -> List[Mapping[str, Any]]:
+    ) -> list[Mapping[str, Any]]:
         """A list of all bindings between an exchange and a queue. Remember, an
         exchange and a queue can be bound together many times!
 
@@ -872,7 +902,7 @@ class Api:
             ApiError: If the operation failed
 
         Returns:
-            List[Mapping[str, Any]]: A list of the bindings
+            list[Mapping[str, Any]]: A list of the bindings
         """
         response = await self._requester.get('bindings', vhost, 'e', exchange, 'q', queue)
         if response is None:
@@ -885,8 +915,8 @@ class Api:
             exchange: str,
             queue: str,
             routing_key: str,
-            arguments: List[Mapping[str, Any]]
-    ) -> List[Mapping[str, Any]]:
+            arguments: list[Mapping[str, Any]]
+    ) -> list[Mapping[str, Any]]:
         data = {
             "routing_key": routing_key,
             "arguments": arguments
@@ -905,7 +935,7 @@ class Api:
             exchange: str,
             queue: str,
             props: str
-    ) -> List[Mapping[str, Any]]:
+    ) -> list[Mapping[str, Any]]:
         """An individual binding between an exchange and a queue. The props part
         of the URI is a "name" for the binding composed of its routing key and a
         hash of its arguments. props is the field named "properties_key" from a
@@ -921,7 +951,7 @@ class Api:
             ApiError: If the operation failed
 
         Returns:
-            List[Mapping[str, Any]]: A list of the binding properties
+            list[Mapping[str, Any]]: A list of the binding properties
         """
         response = await self._requester.get('bindings', vhost, 'e', exchange, 'q', queue, props)
         if response is None:
@@ -946,7 +976,7 @@ class Api:
             vhost: str,
             source: str,
             destination: str
-    ) -> List[Mapping[str, Any]]:
+    ) -> list[Mapping[str, Any]]:
         """Get a list of all bindings between two exchanges, similar to the list of
         all bindings between an exchange and a queue
 
@@ -959,7 +989,7 @@ class Api:
             ApiError: If the operation failed
 
         Returns:
-            List[Mapping[str, Any]]: A list of bindings
+            list[Mapping[str, Any]]: A list of bindings
         """
         response = await self._requester.get('bindings', vhost, 'e', source, 'e', destination)
         if response is None:
@@ -1003,7 +1033,7 @@ class Api:
             source: str,
             destination: str,
             props: str
-    ) -> List[Mapping[str, Any]]:
+    ) -> list[Mapping[str, Any]]:
         """Get an individual binding between two exchanges. Similar to the
         individual binding between an exchange and a queue.
 
@@ -1017,9 +1047,17 @@ class Api:
             ApiError: If the operation fails
 
         Returns:
-            List[Mapping[str, Any]]: A list of the props
+            list[Mapping[str, Any]]: A list of the props
         """
-        response = await self._requester.get('bindings', vhost, 'e', source, 'e', destination, props)
+        response = await self._requester.get(
+            'bindings',
+            vhost,
+            'e',
+            source,
+            'e',
+            destination,
+            props
+        )
         if response is None:
             raise ApiError
         return response
@@ -1049,14 +1087,14 @@ class Api:
         if response is None:
             raise ApiError
 
-    async def get_vhosts(self) -> List[Mapping[str, Any]]:
+    async def get_vhosts(self) -> list[Mapping[str, Any]]:
         """A list of all vhosts.
 
         Raises:
             ApiError: If the operation fails
 
         Returns:
-            List[Mapping[str, Any]]: A list of virtual hosts.
+            list[Mapping[str, Any]]: A list of virtual hosts.
         """
         response = await self._requester.get_list('vhosts')
         if response is None:
@@ -1110,7 +1148,10 @@ class Api:
         if response is not None:
             raise ApiError
 
-    async def get_vhost_permissions(self, name: str) -> List[Mapping[str, Any]]:
+    async def get_vhost_permissions(
+            self,
+            name: str
+    ) -> list[Mapping[str, Any]]:
         """A list of all permissions for a given virtual host.
 
         Args:
@@ -1120,14 +1161,14 @@ class Api:
             ApiError: If the operation fails
 
         Returns:
-        List[Mapping[str, Any]]: A list of permissions
+        list[Mapping[str, Any]]: A list of permissions
         """
         response = await self._requester.get('vhosts', name, 'permissions')
         if response is None:
             raise ApiError
         return response
 
-    async def get_vhost_topic_permissions(self, name: str) -> List[Mapping[str, Any]]:
+    async def get_vhost_topic_permissions(self, name: str) -> list[Mapping[str, Any]]:
         """A list of all topic permissions for a given virtual host.
 
         Args:
@@ -1137,21 +1178,21 @@ class Api:
             ApiError: If the operation fails
 
         Returns:
-            List[Mapping[str, Any]]: A list of topic permissions
+            list[Mapping[str, Any]]: A list of topic permissions
         """
         response = await self._requester.get('vhosts', name, 'topic-permissions')
         if response is None:
             raise ApiError
         return response
 
-    async def get_users(self) -> List[Mapping[str, Any]]:
+    async def get_users(self) -> list[Mapping[str, Any]]:
         """A list of all users.
 
         Raises:
             ApiError: If the operation fails
 
         Returns:
-            List[Mapping[str, Any]]: A list of users
+            list[Mapping[str, Any]]: A list of users
         """
         response = await self._requester.get_list('users')
         if response is None:

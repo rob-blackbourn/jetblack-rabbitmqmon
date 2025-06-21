@@ -21,7 +21,7 @@ class AioHttpRequester(Requester):
             url: str,
             username: str,
             password: str,
-            cafile: Optional[str] = '/etc/ssl/certs/ca-certificates.crt'
+            cafile: str | None = None
     ):
         """An HTTP client
 

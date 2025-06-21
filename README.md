@@ -112,3 +112,12 @@ async def main_async():
 if __name__ == '__main__':
     asyncio.run(main_async())
 ```
+
+## Testing
+
+To test, start rabbit as a container.
+
+```bash
+# latest RabbitMQ 4.x
+podman run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4-management
+```
