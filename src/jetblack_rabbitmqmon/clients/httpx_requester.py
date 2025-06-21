@@ -9,6 +9,7 @@ from httpx import AsyncClient, BasicAuth
 
 from ..requester import Requester
 
+
 def _quote(value):
     return quote(value, '')
 
@@ -47,21 +48,21 @@ class HttpxRequester(Requester):
             self,
             method: str,
             *args: str,
-            data: Optional[Any] = None,
-            params: Optional[Any] = None
-    ) -> Optional[Any]:
+            data: Any | None = None,
+            params: Any | None = None
+    ) -> Any | None:
         """Make an HTTP request
 
         Args:
             method (str): The HTTP method
-            data (Optional[Any], optional): Used for the body. Defaults to None.
-            params (Optional[Any], optional): Used for a querystring. Defaults to None.
+            data (Any | None, optional): Used for the body. Defaults to None.
+            params (Any | None, optional): Used for a querystring. Defaults to None.
 
         Raises:
             ValueError: If the request fails
 
         Returns:
-            Optional[Any]: The JSON decoded response.
+            Any | None: The JSON decoded response.
         """
 
         url = self._build_url(*args)
@@ -70,14 +71,23 @@ class HttpxRequester(Requester):
             for name, value in params.items()
         } if params else None
 
+        headers = (
+            None
+            if data is None
+            else {'Content-Type': 'application/json'}
+        )
+
         async with AsyncClient(auth=self.auth, verify=self.ssl_context) as session:
             response = await session.request(
-                    method,
-                    url,
-                    params=params_as_str,
-                    json=data,
+                method,
+                url,
+                headers=headers,
+                params=params_as_str,
+                json=data,
             )
             response.raise_for_status()
+            if response.content == b'':
+                return None
             body = response.json()
             return body
 

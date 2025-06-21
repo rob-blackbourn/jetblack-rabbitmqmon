@@ -60,6 +60,29 @@ class VHostQueue:
         )
         return self._init(**response)
 
+    async def bind(
+            self,
+            exchange: str,
+            routing_key: str,
+            arguments: Mapping[str, Any] | None = None
+    ) -> None:
+        """Create a binding for the queue
+
+        Args:
+            exchange (str): The name of the exchange to bind to.
+            routing_key (str): The routing key for the binding.
+
+        Returns:
+            VHostBinding: The created binding.
+        """
+        await self._api.create_vhost_exchange_queue_binding(
+            self.vhost,
+            exchange,
+            self.name,
+            routing_key,
+            arguments
+        )
+
     async def bindings(self) -> List[VHostBinding]:
         """Get the queues bindings
 

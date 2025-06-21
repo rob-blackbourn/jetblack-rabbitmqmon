@@ -71,7 +71,7 @@ class VHost:
             exchange_type: str,
             durable: bool,
             auto_delete: bool,
-            internal: bool,
+            internal: bool = False,
             arguments: Optional[Mapping[str, Any]] = None
     ) -> VHostExchange:
         """Create an exchange.
@@ -84,9 +84,9 @@ class VHost:
                 then all queues or exchanges have been unbound.
             durable (bool): If true, the exchange will exists if the server is
                 restarted.
-            internal (bool): If true, clients cannot publish to this exchange
+            internal (bool, optional): If true, clients cannot publish to this exchange
                 directly. It can only be used with exchange to exchange
-                bindings.
+                bindings. Defaults to False.
             arguments (Optional[Mapping[str, Any]], optional): Additional
                 arguments. Defaults to None.
 

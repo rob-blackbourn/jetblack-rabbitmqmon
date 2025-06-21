@@ -30,6 +30,20 @@ class Monitor:
         response = await self._api.get_cluster_name()
         return cast(str, response['name'])
 
+    async def create_vhost(self, name: str, tracing: bool = False) -> VHost:
+        """Create a vhost.
+
+        Args:
+            name (str): The name of the host.
+            tracing (bool, optional): Enable tracing. Defaults to False.
+
+        Returns:
+            VHost: The created vhost.
+        """
+        await self._api.create_vhost(name, tracing)
+        response = await self._api.get_vhost(name)
+        return VHost(self._api, **response)
+
     async def vhosts(self) -> Mapping[str, VHost]:
         response = await self._api.get_vhosts()
         return {

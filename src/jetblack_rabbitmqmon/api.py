@@ -909,25 +909,23 @@ class Api:
             raise ApiError
         return response
 
-    async def set_vhost_exchange_queue_bindings(
+    async def create_vhost_exchange_queue_binding(
             self,
             vhost: str,
             exchange: str,
             queue: str,
             routing_key: str,
-            arguments: list[Mapping[str, Any]]
-    ) -> list[Mapping[str, Any]]:
-        data = {
+            arguments: Mapping[str, Any] | None = None
+    ) -> None:
+        data: dict[str, Any] = {
             "routing_key": routing_key,
-            "arguments": arguments
         }
-        response = await self._requester.post(
+        if arguments is not None:
+            data['arguments'] = arguments
+        await self._requester.post(
             'bindings', vhost, 'e', exchange, 'q', queue,
             data=data
         )
-        if response is None:
-            raise ApiError
-        return response
 
     async def get_vhost_exchange_queue_binding_props(
             self,
@@ -1131,7 +1129,7 @@ class Api:
         data = {
             'tracing': tracing
         }
-        response = await self._requester.put('vhost', vhost, data=data)
+        response = await self._requester.put('vhosts', vhost, data=data)
         if response is not None:
             raise ApiError
 
