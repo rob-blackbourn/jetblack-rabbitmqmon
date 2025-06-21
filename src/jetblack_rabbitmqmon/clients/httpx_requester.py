@@ -2,7 +2,7 @@
 
 import json
 import ssl
-from typing import Any, Optional
+from typing import Any
 from urllib.parse import quote
 
 from httpx import AsyncClient, BasicAuth
