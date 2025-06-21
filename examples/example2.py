@@ -61,9 +61,9 @@ async def main_async(requester: Requester) -> None:
 
 if __name__ == '__main__':
     httpx_requester = HttpxRequester(
-        os.environ['RABBITMQ_URL'],
-        os.environ['RABBITMQ_USERNAME'],
-        os.environ['RABBITMQ_PASSWORD']
+        "http://localhost:15672",
+        "guest",
+        "guest"
     )
 
     asyncio.run(main_async(httpx_requester))

@@ -1111,7 +1111,7 @@ class Api:
         Returns:
             Mapping[str, Any]: The details of the virtual host
         """
-        response = await self._requester.get_object('vhost', vhost)
+        response = await self._requester.get_object('vhosts', vhost)
         if response is None:
             raise ApiError
         return response
