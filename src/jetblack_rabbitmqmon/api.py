@@ -791,7 +791,7 @@ class Api:
                 'vhost': vhost
             }
         else:
-            raise Exception('Unhandled version of management plugin')
+            raise ValueError('Unhandled version of management plugin')
 
         if truncate is not None:
             data['truncate'] = truncate

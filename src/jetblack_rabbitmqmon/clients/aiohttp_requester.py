@@ -2,12 +2,13 @@
 
 import json
 import ssl
-from typing import Any, Optional
+from typing import Any
 from urllib.parse import quote
 
 from aiohttp import ClientSession, BasicAuth
 
 from ..requester import Requester
+
 
 def _quote(value):
     return quote(value, '')
@@ -29,7 +30,7 @@ class AioHttpRequester(Requester):
             url (str): The RabbitMQ url
             username (str): The username
             password (str): The password
-            cafile (Optional[str], optional): The certificate file. Defaults
+            cafile (str | None, optional): The certificate file. Defaults
                 to '/etc/ssl/certs/ca-certificates.crt'.
         """
         self._base_url = f'{url}/api'
@@ -47,21 +48,21 @@ class AioHttpRequester(Requester):
             self,
             method: str,
             *args: str,
-            data: Optional[Any] = None,
-            params: Optional[Any] = None
-    ) -> Optional[Any]:
+            data: Any | None = None,
+            params: Any | None = None
+    ) -> Any | None:
         """Make an HTTP request
 
         Args:
             method (str): The HTTP method
-            data (Optional[Any], optional): Used for the body. Defaults to None.
-            params (Optional[Any], optional): Used for a querystring. Defaults to None.
+            data (Any | None, optional): Used for the body. Defaults to None.
+            params (Any | None, optional): Used for a querystring. Defaults to None.
 
         Raises:
             ValueError: If the request fails
 
         Returns:
-            Optional[Any]: The JSON decoded response.
+            Any | None: The JSON decoded response.
         """
 
         url = self._build_url(*args)
