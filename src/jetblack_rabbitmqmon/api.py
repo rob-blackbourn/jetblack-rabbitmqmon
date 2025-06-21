@@ -1142,7 +1142,7 @@ class Api:
         Raises:
             ApiError: If the operation fails
         """
-        response = await self._requester.delete('vhost', vhost)
+        response = await self._requester.delete('vhosts', vhost)
         if response is not None:
             raise ApiError
 

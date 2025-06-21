@@ -46,7 +46,16 @@ async def main_async(requester: Requester) -> None:
         binding.routing_key == 'test.#'
         for binding in bindings
     ):
-        await queue.bind(exchange.name, 'test.#')
+        await queue.create_binding(exchange.name, 'test.#')
+        bindings = await queue.bindings()
+
+    for binding in bindings:
+        if binding.source == exchange.name and binding.routing_key == 'test.#':
+            await queue.delete_binding(exchange.name, binding.properties_key)
+
+    await queue.delete()
+    await exchange.delete()
+    await vhost.delete()
 
     print('Done')
 

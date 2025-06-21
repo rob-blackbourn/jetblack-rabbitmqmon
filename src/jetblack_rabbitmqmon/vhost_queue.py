@@ -60,7 +60,7 @@ class VHostQueue:
         )
         return self._init(**response)
 
-    async def bind(
+    async def create_binding(
             self,
             exchange: str,
             routing_key: str,
@@ -81,6 +81,18 @@ class VHostQueue:
             self.name,
             routing_key,
             arguments
+        )
+
+    async def delete_binding(
+            self,
+            exchange: str,
+            props: str
+    ) -> None:
+        await self._api.delete_vhost_exchange_queue_binding_props(
+            self.vhost,
+            exchange,
+            self.name,
+            props
         )
 
     async def bindings(self) -> List[VHostBinding]:
